@@ -1,0 +1,27 @@
+[project]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "{{ project_description }}"
+authors = [
+    { name = "{{ user_name }}", email = "{{ user_email }}" },
+]
+readme = "README.md"
+requires-python = "==3.13.*"
+dependencies = [
+    "colorlogs>=0.1",{% if 'WebServer' in lib_pack %}
+    "fastapi>=0.136.3",
+    "uvicorn>=0.49.0",{% endif %}{% if 'Data' in lib_pack %}
+    "matplotlib>=3.11.0",
+    "numpy>=2.4.6",
+    "pandas>=3.0.3",{% endif %}{% if 'Dantic' in lib_pack %}
+    "pydantic>=2.13.4",{% endif %}{% if 'Serial' in lib_pack %}
+    "pyserial>=3.5",{% endif %}{% if 'GUI' in lib_pack %}
+    "pyside6>=6.11.1",{% endif %}{% if 'SQL' in lib_pack %}
+    "sqlalchemy>=2.0.50",{% endif %}
+]
+
+[project.scripts]
+main = "{{ module_slug }}.main:main"
+
+[tool.uv]
+package = true

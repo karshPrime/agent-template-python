@@ -38,6 +38,21 @@ defaults:
 
 
 
+### Updating a Project
+
+Generated projects keep their Copier answers in `.copier-py-answers.yml` at the project root. From there:
+
+```bash
+$ copier update --defaults --answers-file .copier-py-answers.yml
+```
+
+Projects generated before the answers file moved keep it in `.copier-generic-project/`. Move it once before updating:
+
+```bash
+$ git mv .copier-generic-project/.copier-py-answers.yml .copier-py-answers.yml
+```
+
+
 ### Versioning and CI
 
 The template's release version lives in `VERSION` as `vX.Y.Z`. Bump it in every change that should be released:

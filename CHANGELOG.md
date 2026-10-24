@@ -7,3 +7,4 @@
 * fix/project-builds: generated projects install, start and build, with a uv.lock, the right colorlog package, a working FastAPI lifespan and a pinned uv in the dev container.
 * feature/run-script: generated projects ship a run.sh for building, formatting with ruff, testing with pytest and building a wheel and sdist, with starter tests and ruff-clean code.
 * feature/github-ci: generated projects ship the shared GitHub CI, a VERSION file and the shared Renovate settings, which copier update leaves alone.
+* feature/root-answers-file: generated projects keep their Copier answers in `.copier-py-answers.yml` at the root rather than in `.copier-generic-project/`; existing projects move the file once before their next update.

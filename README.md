@@ -50,3 +50,12 @@ GitHub Actions (`.github/workflows/ci.yml`) runs two jobs:
 * **tag:** on push to `main`, tags the merged commit with the version in `VERSION`, so existing projects can move to it with `copier update`. If the tag already exists, nothing is tagged.
 
 The workflow is read-only apart from the tag job, which needs write access to create the tag. It runs on `pull_request`, never `pull_request_target`, so code from a fork never runs with this repository's credentials. Actions are pinned to commit SHAs, and Renovate (`renovate.json`) proposes updates to them weekly.
+
+
+### Project Tasks
+
+Every generated project has a `run.sh` at its root:
+* `./run.sh --build` installs the locked dependencies and byte-compiles the package.
+* `./run.sh --format` formats the Python sources with ruff; `--format-dry-run` lists unformatted files and fails if there are any.
+* `./run.sh --test` runs the tests with pytest.
+* `./run.sh --release` builds a wheel and an sdist into `dist/`.

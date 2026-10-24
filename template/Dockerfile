@@ -31,7 +31,7 @@ RUN groupadd --gid 1000 user \
 USER user
 WORKDIR /home/user
 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+COPY --from=ghcr.io/astral-sh/uv:0.13.1@sha256:4a1f3666816dafadd20ceb71eac9a7d56d7ef30279f7d64048519ab901ada336 /uv /uvx /usr/local/bin/
 ENV UV_LINK_MODE=copy
 
 # Reset frontend to interactive

@@ -22,7 +22,7 @@ $ copier copy --trust --vcs-ref=python git@github.com:karnull/templates path/to/
 ```
 * **Project Description:** Answer the Copier prompt with an optional plain‑text description of your project.
 * **Library Pack:** Optional selection of libraries to include in the project.
-* The `--trust` option is required because the template runs `git` and `uv` commands.
+* The `--trust` option is required because the template runs `git` and `uv lock`. Without uv installed, run `uv lock` in the dev container afterwards and commit `uv.lock`.
 
 
 ### Default Config

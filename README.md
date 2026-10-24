@@ -59,3 +59,14 @@ Every generated project has a `run.sh` at its root:
 * `./run.sh --format` formats the Python sources with ruff; `--format-dry-run` lists unformatted files and fails if there are any.
 * `./run.sh --test` runs the tests with pytest.
 * `./run.sh --release` builds a wheel and an sdist into `dist/`.
+
+
+### GitHub CI
+
+Generated projects ship with the shared workflow from [template-github-ci](https://github.com/karshosphere/template-github-ci), vendored into `template/.github/`. It expects the project's `run.sh` and `.devcontainer/`, requires a `VERSION` bump on every pull request, and publishes a GitHub release on each merge to main.
+
+To bring in a newer release of the workflow, from this repository's root:
+
+```bash
+$ copier update -a .github/.copier-ci-answers.yml template
+```

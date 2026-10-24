@@ -9,6 +9,7 @@ RUN apt update && apt upgrade -y \
     && apt install --no-install-recommends -y \
         ca-certificates \
         bash \
+        make \
         curl \
     && apt clean \
     && apt autoremove \

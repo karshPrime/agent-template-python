@@ -54,16 +54,16 @@ The workflow is read-only apart from the tag job, which needs write access to cr
 
 ### Project Tasks
 
-Every generated project has a `run.sh` at its root:
-* `./run.sh --build` installs the locked dependencies and byte-compiles the package.
-* `./run.sh --format` formats the Python sources with ruff; `--format-dry-run` lists unformatted files and fails if there are any.
-* `./run.sh --test` runs the tests with pytest.
-* `./run.sh --release` builds a wheel and an sdist into `dist/`.
+Every generated project has a `Makefile` at its root:
+* `make build` installs the locked dependencies and byte-compiles the package.
+* `make format` formats the Python sources with ruff; `make format-dry-run` lists unformatted files and fails if there are any.
+* `make test` runs the tests with pytest.
+* `make release` builds a wheel and an sdist into `dist/`.
 
 
 ### GitHub CI
 
-Generated projects ship with the shared workflow from [template-github-ci](https://github.com/karshosphere/template-github-ci), vendored into `template/.github/`. It expects the project's `run.sh` and `.devcontainer/`, requires a `VERSION` bump on every pull request, and publishes a GitHub release on each merge to main.
+Generated projects ship with the shared workflow from [template-github-ci](https://github.com/karshosphere/template-github-ci), vendored into `template/.github/`. It expects the project's `Makefile` and `.devcontainer/`, requires a `VERSION` bump on every pull request, and publishes a GitHub release on each merge to main.
 
 To bring in a newer release of the workflow, from this repository's root:
 

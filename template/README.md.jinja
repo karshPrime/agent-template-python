@@ -15,7 +15,7 @@
 ### Build
 
 ```bash
-$ ./run.sh --build
+$ make build
 ```
 
 ### Run
@@ -31,14 +31,14 @@ $ uv run main
 ### Run all tests
 
 ```bash
-$ ./run.sh --test
+$ make test
 ```
 
 ### Formatting
 
 ```bash
-$ ./run.sh --format           # format in place
-$ ./run.sh --format-dry-run   # list files that need formatting
+$ make format           # format in place
+$ make format-dry-run   # list files that need formatting
 ```
 
 
@@ -52,7 +52,7 @@ $ ./run.sh --format-dry-run   # list files that need formatting
 
 ## Release
 
-`./run.sh --release` builds a wheel and an sdist into `dist/`. They install on any platform with Python 3.13.
+`make release` builds a wheel and an sdist into `dist/`. They install on any platform with Python 3.13.
 
 
 

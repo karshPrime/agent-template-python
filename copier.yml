@@ -110,6 +110,10 @@ _tasks:
     when: "{{ _copier_operation == 'copy' }}"
   - command: 'git branch -M main'
     when: "{{ _copier_operation == 'copy' }}"
+  - command: >-
+      if command -v uv >/dev/null 2>&1; then uv lock;
+      else echo "uv not found: run uv lock in the dev container, then commit uv.lock"; fi
+    when: "{{ _copier_operation == 'copy' }}"
   - command: 'git add --all'
     when: "{{ _copier_operation == 'copy' }}"
   - command: 'git commit -m "Copy from generic template" -m "https://github.com/karnull/templates"'

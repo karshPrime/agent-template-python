@@ -8,3 +8,4 @@
 * feature/run-script: generated projects ship a run.sh for building, formatting with ruff, testing with pytest and building a wheel and sdist, with starter tests and ruff-clean code.
 * feature/github-ci: generated projects ship the shared GitHub CI, a VERSION file and the shared Renovate settings, which copier update leaves alone.
 * feature/makefile: generated projects ship a Makefile with build, format, format-dry-run, test and release targets in place of run.sh, with make in the dev container and the shared CI calling make.
+* feature/root-answers-file: generated projects keep their Copier answers in `.copier-py-answers.yml` at the root rather than in `.copier-generic-project/`; existing projects move the file once before their next update.

@@ -15,13 +15,13 @@
 ### Build
 
 ```bash
-$ <command>
+$ ./run.sh --build
 ```
 
 ### Run
 
 ```bash
-$ <command>
+$ uv run main
 ```
 
 
@@ -31,7 +31,14 @@ $ <command>
 ### Run all tests
 
 ```bash
-$ <command>
+$ ./run.sh --test
+```
+
+### Formatting
+
+```bash
+$ ./run.sh --format           # format in place
+$ ./run.sh --format-dry-run   # list files that need formatting
 ```
 
 
@@ -45,7 +52,7 @@ $ <command>
 
 ## Release
 
-Add details on how a release is produced. Typically done in CI, therefore descibe process by which a release build is triggered, alternatively if no CI, describe manual steps to build and release.
+`./run.sh --release` builds a wheel and an sdist into `dist/`. They install on any platform with Python 3.13.
 
 
 

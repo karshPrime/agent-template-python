@@ -3,7 +3,7 @@ Copyright (c) {{ year }} Apache-2.0 license
 
 @file
 @author {{ user_name }}
-@brief  {{ project_description }}
+@brief{% if project_description %}  {{ project_description }}{% endif %}
 """
 
-__all__ = [ ]
+__all__ = []

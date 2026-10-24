@@ -7,7 +7,7 @@ Copyright (c) {{ year }} Apache-2.0 license
 """
 
 
-#===============================================================================
+# ===============================================================================
 # Imports
 
 from __future__ import annotations
@@ -28,8 +28,9 @@ import uvicorn
 LOG = logging.getLogger(__name__)
 
 
-#===============================================================================
+# ===============================================================================
 # Helper Functions
+
 
 def _build_parser(prog: str) -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -39,13 +40,15 @@ def _build_parser(prog: str) -> argparse.ArgumentParser:
 
     verbosity = parser.add_mutually_exclusive_group()
     verbosity.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="count",
         default=0,
         help="Increase verbosity (repeat: -v, -vv).",
     )
     verbosity.add_argument(
-        "-q", "--quiet",
+        "-q",
+        "--quiet",
         action="store_true",
         help="Reduce output (warnings/errors only).",
     )
@@ -137,8 +140,9 @@ def _configure_logging(level: int, log_file: str | None) -> None:
         root.addHandler(file_handler)
 
 
-#===============================================================================
+# ===============================================================================
 # Program Start Point
+
 
 def run(args: argparse.Namespace) -> int:
     """
@@ -151,8 +155,7 @@ def run(args: argparse.Namespace) -> int:
         LOG.info("Got input: %s", args.input)
     else:
         LOG.info("No input provided.")
-
-    {% if 'WebServer' in lib_pack %}
+{% if 'WebServer' in lib_pack %}
     host = os.getenv("API_HOST", "0.0.0.0")
     port = int(os.getenv("API_PORT", "8080"))
 
@@ -162,12 +165,15 @@ def run(args: argparse.Namespace) -> int:
         "{{ module_slug }}.api:app",
         host=host,
         port=port,
-        log_level="debug" if args.verbose >= 2 else "info" if args.verbose == 1 else "warning",
+        log_level="debug"
+        if args.verbose >= 2
+        else "info"
+        if args.verbose == 1
+        else "warning",
     )
-    {% else %}
+{% else %}
     # TODO add code...
-
-    {% endif %}
+{% endif %}
     return 0
 
 
@@ -182,10 +188,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     # Inject version from package if available
     try:
         from . import __version__  # type: ignore
+
         parser.set_defaults(_version=__version__)
         parser._defaults["version"] = __version__  # for action="version"
         parser.version = __version__  # best-effort for some argparse behaviors
-        parser.add_argument("--_internal_version", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument(
+            "--_internal_version", action="store_true", help=argparse.SUPPRESS
+        )
         # Note: argparse's "version" action uses `version=` at add_argument time.
         # We keep a simple approach: leave __init__.__version__ for external access.
     except Exception:

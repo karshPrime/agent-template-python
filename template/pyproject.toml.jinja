@@ -27,7 +27,7 @@ dependencies = [
 [project.scripts]
 main = "{{ module_slug }}.main:main"
 
-# setuptools reads VERSION, the version CI releases, and drops the leading v
+# setuptools reads VERSION, the version CI releases
 [tool.setuptools.dynamic]
 version = { file = "VERSION" }
 

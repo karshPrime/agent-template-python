@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "{{ project_slug }}"
-version = "0.1.0"
+dynamic = ["version"]
 description = "{{ project_description }}"
 authors = [
     { name = "{{ user_name }}"{% if user_email %}, email = "{{ user_email }}"{% endif %} },
@@ -23,8 +27,17 @@ dependencies = [
 [project.scripts]
 main = "{{ module_slug }}.main:main"
 
+# setuptools reads VERSION, the version CI releases, and drops the leading v
+[tool.setuptools.dynamic]
+version = { file = "VERSION" }
+
+[tool.setuptools.packages.find]
+include = ["{{ module_slug }}*"]
+
 [tool.uv]
 package = true
+# rebuild the installed project when VERSION changes, so its metadata stays current
+cache-keys = [{ file = "pyproject.toml" }, { file = "VERSION" }]
 
 [dependency-groups]
 dev = [

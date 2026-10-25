@@ -52,6 +52,12 @@ Projects generated before the answers file moved keep it in `.copier-generic-pro
 $ git mv .copier-generic-project/.copier-py-answers.yml .copier-py-answers.yml
 ```
 
+Projects generated before v2.2.0 hold a fixed version in `uv.lock`. After the update that takes `pyproject.toml` to the version in `VERSION`, refresh the lock once and commit it, or `make build` fails on the out-of-date lock:
+
+```bash
+$ uv lock
+```
+
 
 ### Versioning and CI
 
@@ -73,7 +79,7 @@ Every generated project has a `Makefile` at its root:
 * `make build` installs the locked dependencies and byte-compiles the package.
 * `make format` formats the Python sources with ruff; `make format-dry-run` lists unformatted files and fails if there are any.
 * `make test` runs the tests with pytest.
-* `make release` builds a wheel and an sdist into `dist/`.
+* `make release` builds a wheel and an sdist into `dist/`, versioned from the project's `VERSION` file.
 
 
 ### GitHub CI

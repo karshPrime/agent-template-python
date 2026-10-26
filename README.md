@@ -1,99 +1,68 @@
-
-# Generic Template
+# Python Template
 
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
 
-This repository provides a template for creating Python development environments using `uv`. It got a consistent and reproducible starting point which makes it easier to apply improvements when the template is updated.
+A [Copier](https://copier.readthedocs.io/en/stable) template for Python 3.13 projects managed with uv.
 
 
-### Prerequisites
-
-Install the Copier command:
-* **Quick option:** `uv tool install copier`
-* **Documentation:** https://copier.readthedocs.io/en/stable
-
-
-### Create New Project
-
-Run the following command:
+## Create a Project
 
 ```bash
-$ copier copy --trust --vcs-ref=python git@github.com:karnull/templates path/to/project
+$ uv tool install copier
+$ copier copy --trust gh:karshosphere/template-python path/to/project
 ```
-* **Project Description:** Answer the Copier prompt with an optional plain‑text description of your project.
-* **Library Pack:** Optional selection of libraries to include in the project.
-* The `--trust` option is required because the template runs `git` and `uv lock`. Without uv installed, run `uv lock` in the dev container afterwards and commit `uv.lock`.
 
+Copier asks for:
+* **Project Name** and an optional **Project Description**.
+* **Library Packs**, any of:
+  * Data: matplotlib, numpy and pandas.
+  * Dantic: pydantic.
+  * GUI: PySide6.
+  * Serial: pyserial.
+  * SQL: SQLAlchemy.
+  * WebServer: FastAPI and uvicorn.
 
-### Default Config
+`--trust` lets the template run `git` and `uv lock`. Without uv installed, run `uv lock` in the dev container afterwards and commit `uv.lock`.
 
-User-specific values are loaded from the global configuration file - `~/.config/copier/settings.yml`. If the file is not present or not saved, empty strings are used as defaults.
-```
+Your name, email and GitHub user come from `~/.config/copier/settings.yml`, and are left empty without it:
+
+```yaml
 defaults:
-  user_name  : "karsh"
-  user_email : "karshmail@icloud.com"
+  user_name: "karsh"
+  user_email: "karshmail@icloud.com"
   github_user: "karnull"
-
 ```
 
 
+## Update a Project
 
-### Updating a Project
-
-Generated projects keep their Copier answers in `.copier-py-answers.yml` at the project root. From there:
+From the project root:
 
 ```bash
 $ copier update --defaults --answers-file .copier-py-answers.yml
 ```
 
-Projects generated before the answers file moved keep it in `.copier-generic-project/`. Move it once before updating:
-
-```bash
-$ git mv .copier-generic-project/.copier-py-answers.yml .copier-py-answers.yml
-```
-
-Projects generated before 3.0.0 hold `vX.Y.Z` in `VERSION`. Remove the leading `v` once when updating, or the shared CI's version check fails:
-
-```bash
-$ sed -i 's/^v//' VERSION
-```
-
-Projects generated before v2.2.0 hold a fixed version in `uv.lock`. After the update that takes `pyproject.toml` to the version in `VERSION`, refresh the lock once and commit it, or `make build` fails on the out-of-date lock:
-
-```bash
-$ uv lock
-```
+Older projects need a one-off step:
+* **Before 2.1.0:** move the answers file to the root first, with `git mv .copier-generic-project/.copier-py-answers.yml .copier-py-answers.yml`.
+* **Before 2.2.0:** run `uv lock` after the update and commit `uv.lock`, as the lock still holds the old fixed version.
+* **Before 3.0.0:** drop the `v` from `VERSION` with `sed -i 's/^v//' VERSION`.
 
 
-### Versioning and CI
+## What a Project Gets
 
-The template's release version lives in `VERSION` as a plain `X.Y.Z`, without a leading `v`. Bump it in every change that should be released:
-* `Z` for minor fixes.
-* `Y` for minor features and chores.
-* `X` for breaking changes, such as renamed questions or moved files that affect `copier update` in existing projects.
-
-GitHub Actions (`.github/workflows/ci.yml`) runs two jobs:
-* **version:** on every pull request and push to `main`, checks that `VERSION` holds a single `X.Y.Z` line.
-* **tag:** on push to `main`, tags the merged commit `v` plus the version in `VERSION`, such as `v1.2.3`, so existing projects can move to it with `copier update`. If the tag already exists, nothing is tagged.
-
-The workflow is read-only apart from the tag job, which needs write access to create the tag. It runs on `pull_request`, never `pull_request_target`, so code from a fork never runs with this repository's credentials. Actions are pinned to commit SHAs, and Renovate (`renovate.json`) proposes updates to them weekly.
-
-
-### Project Tasks
-
-Every generated project has a `Makefile` at its root:
-* `make build` installs the locked dependencies and byte-compiles the package.
-* `make format` formats the Python sources with ruff; `make format-dry-run` lists unformatted files and fails if there are any.
-* `make test` runs the tests with pytest.
-* `make release` builds a wheel and an sdist into `dist/`, versioned from the project's `VERSION` file.
+* A `Makefile`:
+  * `make build` installs the locked dependencies and byte-compiles the package.
+  * `make format` formats the sources with ruff; `make format-dry-run` fails if any need it.
+  * `make test` runs the tests with pytest.
+  * `make release` builds a wheel and an sdist into `dist/`.
+* A package version read from `VERSION`, so that file is the only one to bump.
+* A dev container with Python, uv and make.
+* The shared CI from [template-github-ci](https://github.com/karshosphere/template-github-ci): it runs the four make targets in the dev container, requires a `VERSION` bump on every pull request, and publishes a GitHub release on each merge to main.
+* `VERSION`, starting at `0.1.0`, and a `renovate.json` using the shared Renovate settings. The project owns both; updates never overwrite them.
 
 
-### GitHub CI
+## Maintaining the Template
 
-Generated projects ship with the shared workflow from [template-github-ci](https://github.com/karshosphere/template-github-ci), vendored into `template/.github/`. It expects the project's `Makefile` and `.devcontainer/`, requires a `VERSION` bump on every pull request, and publishes a GitHub release on each merge to main.
-
-To bring in a newer release of the workflow, from this repository's root:
-
-```bash
-$ copier update -a .github/.copier-ci-answers.yml template
-```
+* Bump `VERSION`, a plain `X.Y.Z`, on every branch: `Z` for fixes, `Y` for features and chores, `X` for changes that break `copier update` in existing projects. CI checks it and tags each merge to main `vX.Y.Z`.
+* Renovate keeps the pinned actions and images current, grouping minor updates into one weekly pull request. It never touches `VERSION`.
+* Bring in a newer release of the shared CI from the repository root with `copier update -a .github/.copier-ci-answers.yml template`.

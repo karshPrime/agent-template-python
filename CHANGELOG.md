@@ -2,6 +2,8 @@
 
 ## Added
 
+* 3.0.3
+   * the changelog lists changes under the version they were released in, newest first
 * 3.0.2
    * a shorter README with the right copy command, gh:karshosphere/template-python
    * the first commit of a new project links to this template

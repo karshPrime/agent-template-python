@@ -14,3 +14,4 @@
 * feature/version-file: generated projects take their package version from VERSION; existing projects run `uv lock` once after updating.
 * feature/plain-version: VERSION holds a plain X.Y.Z here and in generated projects, with CI adding the v for tags; existing projects remove the v from VERSION once.
 * fix/empty-author: generated code passes make format-dry-run when no author is set in the Copier settings.
+* docs/readme: a shorter README with the right copy command, gh:karshosphere/template-python, and the first commit of a new project links to this template.
